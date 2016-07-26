@@ -14,6 +14,7 @@ cp -rf build/numpy/lib64/python2.7/site-packages/numpy lambda-package
 	NUMPY=$PWD/lambda-package/numpy/core/include
 	cd build
 	git clone https://github.com/Itseez/opencv.git
+	git clone https://github.com/Itseez/opencv_contrib.git
 	cd opencv
 	git checkout 3.1.0
 	cmake						\
@@ -29,6 +30,7 @@ cp -rf build/numpy/lib64/python2.7/site-packages/numpy lambda-package
 		-D ENABLE_FAST_MATH=ON			\
 		-D BUILD_EXAMPLES=OFF			\
 		-D PYTHON2_NUMPY_INCLUDE_DIRS="$NUMPY"	\
+		-D OPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules .. \
 		.
 	make
 )
@@ -40,5 +42,3 @@ touch lambda-package/cv2/__init__.py
 
 # Copy template function and zip package
 cp template.py lambda-package/lambda_function.py
-cd lambda-package
-zip -r ../lambda-package.zip *
